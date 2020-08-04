@@ -113,10 +113,15 @@ namespace BeatSyncLib.Configs
 
         public override IFeedSettings ToFeedSettings()
         {
-            return new BeatSaverFeedSettings((int)BeatSaverFeedName.Latest)
+            BeatSaverFeedSettings settings = new BeatSaverFeedSettings((int)BeatSaverFeedName.Latest)
             {
                 MaxSongs = this.MaxSongs
             };
+            settings.Filter = song =>
+            {
+                return song.JsonData["metadata"]["difficulties"]["expertPlus"].ToObject<bool>();
+            };
+            return settings;
         }
     }
 
